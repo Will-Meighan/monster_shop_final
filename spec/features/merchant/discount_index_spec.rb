@@ -12,7 +12,7 @@ RSpec.describe "As a visitor" do
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant1)
 
-    viait "/merchant"
+    visit "/merchant"
   end
 
   it "has a link to the discounts index page" do
