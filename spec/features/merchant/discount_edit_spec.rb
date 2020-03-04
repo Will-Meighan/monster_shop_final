@@ -28,7 +28,7 @@ RSpec.describe "As a visitor on the edit discount page" do
 
     click_on "Update"
     expect(current_path).to eq("/merchant/discounts/#{@discount_1.id}/edit")
-    expect(page).to have_content("Your discount changes have not been saved.")
+    expect(page).to have_content("Description can't be blank")
 
     fill_in :description, with: "Free"
 

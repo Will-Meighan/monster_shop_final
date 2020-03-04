@@ -34,7 +34,7 @@ class Merchant::DiscountsController < Merchant::BaseController
       flash[:notice] = "Your discount changes have been saved."
       redirect_to "/merchant/discounts/#{discount.id}"
     else
-      flash[:notice] = "Your discount changes have not been saved."
+      flash[:error] = discount.errors.full_messages.to_sentence
       redirect_to "/merchant/discounts/#{discount.id}/edit"
     end
   end
