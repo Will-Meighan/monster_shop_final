@@ -1,12 +1,1 @@
-<%= form_tag "/merchant/discounts/#{@discount.id}", method: :patch do %>
-  <%= label_tag :description %>
-  <%= text_field_tag :description, @discount.description %>
-
-  <%= label_tag :item_threshold %>
-  <%= text_field_tag :item_threshold, @discount.item_threshold %>
-
-  <%= label_tag :percent_discount %>
-  <%= text_field_tag :percent_discount, @discount.percent_discount %>
-
-  <%= submit_tag "Update" %>
-<% end %>
+<%= render partial: 'form', locals: {path: "/merchant/discounts/#{@discount.id}", method: :patch, button_text: 'Update'} %>

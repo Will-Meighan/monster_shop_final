@@ -1,0 +1,7 @@
+<%= form_tag path, method: method do %>
+  <h4>Description: <%= text_field_tag 'description', (if @discount != nil then @discount.description else nil end) %></h4>
+  <h4>Item Threshold: <%= text_field_tag 'item_threshold', (if @discount != nil then @discount.item_threshold else nil end)%></h4>
+  <h4>Percent Discount: <%= text_field_tag 'percent_discount', (if @discount != nil then @discount.percent_discount else nil end)%></h4>
+  <%= submit_tag button_text %>
+<% end %>
+`
