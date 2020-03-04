@@ -10,7 +10,7 @@ RSpec.describe "As a visitor" do
 
     @discount_2 = @megan.discounts.create!(description: 'Large Discount', item_threshold: 40, percent_discount: 10 )
 
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant1)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
 
     visit "/merchant"
   end
