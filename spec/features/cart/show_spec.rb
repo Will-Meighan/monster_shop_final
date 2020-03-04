@@ -183,7 +183,7 @@ RSpec.describe 'Cart Show Page' do
         click_on 'More of This!'
       end
 
-      expect(page).to have_content("5% Discounted Total: $95.00")
+      expect(page).to have_content("Discounted Total: $95.00")
 
       click_button 'Less of This!'
 

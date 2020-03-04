@@ -1,5 +1,5 @@
 class Cart
-  attr_reader :contents
+  attr_reader :contents, :discount_info
 
   def initialize(contents)
     @contents = contents || {}
@@ -44,21 +44,18 @@ class Cart
     count_of(item_id) == Item.find(item_id).inventory
   end
 
-  def discount_info
-    display = []
+  def discounted_total
     self.contents.sum do |item_id,quantity|
       item = Item.find(item_id)
-      possible_discounts = Discount.where(merchant_id: item.merchant_id)
+      @discount_info = Discount.where(merchant_id: item.merchant_id)
                       .where("item_threshold <= #{quantity}")
                       .order("percent_discount DESC")
                       .limit(1)
-      if possible_discounts.length > 0
-        display << ((item.price * (1 - (possible_discounts[0].percent_discount.to_f/100))) * quantity).round(2)
-        display << (possible_discounts[0].percent_discount)
+      if discount_info.length > 0
+        ((item.price * (1 - (discount_info[0].percent_discount.to_f/100))) * quantity).round(2)
       else
         item.price * quantity
       end
-      display
     end
   end
 

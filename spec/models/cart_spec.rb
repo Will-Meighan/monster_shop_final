@@ -67,14 +67,13 @@ RSpec.describe Cart do
       expect(@cart.count_of(@giant.id)).to eq(1)
     end
 
-    it "discount_info" do
-      expect(@cart.discount_info).to eq([])
-
-      @cart_2 = Cart.new({
-        @ogre.id.to_s => 50
+    it "discounted_total" do
+      @cart = Cart.new({
+        @ogre.id.to_s => 50,
+        @giant.id.to_s => 2
         })
 
-      expect(@cart_2.discount_info).to eq([800.0, 20])
+      expect(@cart.discounted_total).to eq(900)
     end
 
   end

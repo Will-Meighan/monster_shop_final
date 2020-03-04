@@ -2,11 +2,10 @@
 <% if cart.items.empty? %>
   <p>Your Cart is Empty!</p>
 <% else %>
-<% if !cart.discount_info.empty?  %>
-  <h3> <%=cart.discount_info.last%>% Discounted Total: <%= number_to_currency(cart.discount_info.first) %></h3>
-<% else %>
-  <h3>Total: <%= number_to_currency(cart.grand_total) %></h3>
+<% if cart.discounted_total != cart.grand_total %>
+  <h3>Discounted Total: <%= number_to_currency(cart.discounted_total) %></h3>
 <% end %>
+<h3>Total: <%= number_to_currency(cart.grand_total) %></h3>
   <% cart.items.each do |item| %>
     <section id='item-<%= item.id%>'>
       <h2><%= link_to item.name, "/items/#{item.id}" %></h2>
