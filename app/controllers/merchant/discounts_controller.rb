@@ -18,7 +18,7 @@ class Merchant::DiscountsController < Merchant::BaseController
       flash[:notice] = "Your discount has been added."
       redirect_to "/merchant/discounts"
     else
-      flash[:notice] = @discount.errors.full_messages.to_sentence
+      flash[:notice] = discount.errors.full_messages.to_sentence
       redirect_to "/merchant/discounts/new"
     end
   end
