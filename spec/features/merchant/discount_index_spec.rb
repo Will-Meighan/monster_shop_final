@@ -37,6 +37,13 @@ RSpec.describe "As a visitor" do
 
     fill_in :description, with: "20% discount"
     fill_in :item_threshold, with: 5
+    click_button "Submit"
+
+    expect(page).to have_content("Percent discount can't be blank")
+    expect(current_path).to eq("/merchant/discounts/new")
+
+    fill_in :description, with: "20% discount"
+    fill_in :item_threshold, with: 5
     fill_in :percent_discount, with: 20
     click_button "Submit"
 
