@@ -6,9 +6,12 @@ RSpec.describe 'Cart Show Page' do
     before :each do
       @megan = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
       @brian = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
-      @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
+      @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 50 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+
+      @discount_1 = @megan.discounts.create!(description: 'Small Discount', item_threshold: 5, percent_discount: 5 )
+      @discount_2 = @megan.discounts.create!(description: 'Large Discount', item_threshold: 10, percent_discount: 20 )
     end
 
     describe 'I can see my cart' do
@@ -167,6 +170,36 @@ RSpec.describe 'Cart Show Page' do
         expect(page).to_not have_content("#{@hippo.name}")
         expect(page).to have_content("Cart: 0")
       end
+    end
+
+    it "applies discount when item quantity is 5 or more" do
+      visit item_path(@ogre)
+      click_button 'Add to Cart'
+      visit "/cart"
+
+      expect(page).to_not have_content("Discounted Total:")
+
+      4.times do
+        click_on 'More of This!'
+      end
+
+      expect(page).to have_content("5% Discounted Total: $95.00")
+
+      click_button 'Less of This!'
+
+      expect(page).to_not have_content("Discounted Total:")
+    end
+
+    it "chooses the greater discount" do
+      visit item_path(@ogre)
+      click_button 'Add to Cart'
+      visit "/cart"
+
+      9.times do
+        click_on 'More of This!'
+      end
+
+      expect(page).to have_content("Discounted Total: $160.00")
     end
   end
 end

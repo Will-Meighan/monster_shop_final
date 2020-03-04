@@ -43,4 +43,23 @@ class Cart
   def limit_reached?(item_id)
     count_of(item_id) == Item.find(item_id).inventory
   end
+
+  def discount_info
+    display = []
+    self.contents.sum do |item_id,quantity|
+      item = Item.find(item_id)
+      possible_discounts = Discount.where(merchant_id: item.merchant_id)
+                      .where("item_threshold <= #{quantity}")
+                      .order("percent_discount DESC")
+                      .limit(1)
+      if possible_discounts.length > 0
+        display << ((item.price * (1 - (possible_discounts[0].percent_discount.to_f/100))) * quantity).round(2)
+        display << (possible_discounts[0].percent_discount)
+      else
+        item.price * quantity
+      end
+      display
+    end
+  end
+
 end
