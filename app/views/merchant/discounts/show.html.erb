@@ -1,0 +1,4 @@
+<h1><%= @discount.description %></h1>
+<p><%= link_to "Edit", "/merchant/discounts/#{@discount.id}/edit" %></p>
+<h3>Item threshold: <%= @discount.item_threshold %></h3>
+<h3>Percent discount: <%= @discount.percent_discount %></h3>
