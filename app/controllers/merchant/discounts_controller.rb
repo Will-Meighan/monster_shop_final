@@ -28,7 +28,7 @@ class Merchant::DiscountsController < Merchant::BaseController
 
   def update
     merchant = current_user.merchant
-    discount = Discount.find(params[:discount_id])
+    discount = Discount.find(params[:id])
     if discount.update(discount_params)
       flash[:notice] = "Your discount changes have been saved."
       redirect_to "/merchant/discounts/#{discount.id}"
@@ -39,7 +39,7 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def destroy
-    discount = Discount.find(params[:discount_id])
+    discount = Discount.find(params[:id])
     discount.destroy
     redirect_to "/merchant/discounts"
   end

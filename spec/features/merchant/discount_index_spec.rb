@@ -51,4 +51,17 @@ RSpec.describe "As a visitor" do
     expect(page).to have_content("Your discount has been added.")
   end
 
+  it "has a link to delete a discount" do
+    click_link "Discounts"
+    expect(current_path).to eq("/merchant/discounts")
+
+    within"#discount-#{@discount_1.id}" do
+      click_link "Delete"
+    end
+
+    expect(current_path).to eq("/merchant/discounts")
+    expect(page).to_not have_content(@discount_1.description)
+    expect(Discount.all.count).to eq(1)
+  end
+
 end
