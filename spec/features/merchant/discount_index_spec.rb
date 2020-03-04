@@ -28,4 +28,20 @@ RSpec.describe "As a visitor" do
     end
   end
 
+  it "has a link to add a new discount from merchant discounts index page" do
+    click_link "Discounts"
+    expect(current_path).to eq("/merchant/discounts")
+
+    click_link "Add Discount"
+    expect(current_path).to eq("/merchant/discounts/new")
+
+    fill_in :description, with: "20% discount"
+    fill_in :item_threshold, with: 5
+    fill_in :percent_discount, with: 20
+    click_button "Submit"
+
+    expect(current_path).to eq("/merchant/discounts")
+    expect(page).to have_content("Your discount has been added.")
+  end
+
 end
