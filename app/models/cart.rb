@@ -51,8 +51,8 @@ class Cart
                       .where("item_threshold <= #{quantity}")
                       .order("percent_discount DESC")
                       .limit(1)
-      if discount_info.length > 0
-        ((item.price * (1 - (discount_info[0].percent_discount.to_f/100))) * quantity).round(2)
+      if !discount_info.empty?
+        ((item.price * (1 - (discount_info[0].percent_discount.to_f/100))) * quantity)
       else
         item.price * quantity
       end
